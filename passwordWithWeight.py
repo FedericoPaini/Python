@@ -11,10 +11,10 @@ numbers = ['1','2','3','4','5','6','7','8','9','0']
 letters_count = int(len(letters))
 numbers_count = int(len(numbers))
 
-pwd_lenght = int(raw_input("Password lenght:"))
+pwd_length = int(raw_input("Password length:"))
 
-if pwd_lenght < 6:
-	print"Error! Password Lenght must be at least 6 characters!"
+if pwd_length < 6:
+	print"Error! Password length must be at least 6 characters!"
 	exit()
 
 alpha_weight = float(raw_input("Password letters weight (0.0-1.0):"))
@@ -23,20 +23,20 @@ if (alpha_weight < 0) or (alpha_weight > 1):
 	print"Error! Password weight must be between 0.0 and 1.0!"
 	exit()
 
-pwd_lenght_alpha = int(pwd_lenght * alpha_weight)
-pwd_lenght_num = int(pwd_lenght - pwd_lenght_alpha)
+pwd_length_alpha = int(pwd_length * alpha_weight)
+pwd_length_num = int(pwd_length - pwd_length_alpha)
 
 
 #create random a string
-def Pwd(counter, lenght, alphanum):
+def Pwd(counter, length, alphanum):
 
 	string = ""
 
-	while lenght !=0 :
+	while length !=0 :
 		rdm = random.randrange(counter)
 		digit = alphanum[rdm]
 		string  += digit
-		lenght -= 1
+		length -= 1
 
 	return string
 
@@ -46,8 +46,8 @@ def Scramble(str1, str2):
 	result = ''.join(random.sample(str, len(str)))
 	return result
 
-alpha = Pwd(letters_count, pwd_lenght_alpha, letters)
-num = Pwd(numbers_count, pwd_lenght_num, numbers)
+alpha = Pwd(letters_count, pwd_length_alpha, letters)
+num = Pwd(numbers_count, pwd_length_num, numbers)
 
 percent = str(int(alpha_weight * 100))
 
