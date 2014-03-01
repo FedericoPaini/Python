@@ -7,7 +7,8 @@ file = 'conv_rates.txt' #file containing the exchange rates
 locale.setlocale( locale.LC_ALL, '' )
 
 def check_file(file):
-	if os.path.exists(file) == False:
+	#check that the file exists and it's not empty
+	if os.path.exists(file) == False or os.stat(file).st_size == 0:
 		grab_web_rates()
 
 	#check that the file is no more than 24 hours long
@@ -121,7 +122,7 @@ def main():
 			rate = r[0]
 			amount = locale.currency( amount, grouping=True )
 			print "Your amount: ", amount
-			print "Converts to Yuan: ", format_currency(result)
+			print "Converts to Yuan: " , format_currency(result)
 			print "The US Dollar -> Chinese Yuan exchnage rate is: ", rate
 			break
 
