@@ -18,4 +18,4 @@ def RollCount():
         return roll_count
 
 snakeEyes = RollCount()
-print "Number of rolls to get to snake eyes: ", snakeEyes
+print "Number of rolls to get snake-eyes: ", snakeEyes
