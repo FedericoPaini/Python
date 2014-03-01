@@ -7,7 +7,7 @@ args = sys.argv
 
 if args_len != 2 :
 	print '''
-	Usage: tempConv.py [switches] -v [value to convert]
+	Usage: tempConv.py [switches] [temperature to convert]
 			-c Celsius to Fahrenheit
 			-f Fahrenheit to Celsius
 	'''
@@ -27,7 +27,7 @@ elif args[1] == "-f":
 
 else:
 	print '''
-	Usage: tempConv.py [switches] -v [value to convert]
+	Usage: tempConv.py [switches] [temperature to convert]
 			-c Celsius to Fahrenheit
 			-f Fahrenheit to Celsius
 	'''
