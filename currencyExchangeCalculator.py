@@ -2,7 +2,7 @@
 
 import sys, os, os.path, urllib2, re, cookielib, time, datetime, locale
 
-file = 'conv_rates.txt' #file containing the exchnage rates
+file = 'conv_rates.txt' #file containing the exchange rates
 
 locale.setlocale( locale.LC_ALL, '' )
 
@@ -121,7 +121,7 @@ def main():
 			rate = r[0]
 			amount = locale.currency( amount, grouping=True )
 			print "Your amount: ", amount
-			print "Converts to Yuan: ", e, format_currency(result)
+			print "Converts to Yuan: ", format_currency(result)
 			print "The US Dollar -> Chinese Yuan exchnage rate is: ", rate
 			break
 
