@@ -65,17 +65,21 @@ def main():
 	print '''
 	Chose the Conversion:
 	1. US Dollar -> Euro
-	2. US Dollar -> British Pound
-	3. US Dollar -> Canadian Dollar
-	4. US Dollar -> Chines Yuan
+	2. Euro -> US Dollar
+	3. US Dollar -> British Pound
+	4. British Pound -> US Dollar
+	5. US Dollar -> Canadian Dollar
+	6. Canadian Dollar -> US Dollar
+	7. US Dollar -> Chines Yuan
+	8. Chines Yuan -> US Dollar
 	0. Exit
 	'''
 	choice = int(raw_input("\t"))
 	while choice != 0:
 		check_file(file)
-		amount = float(raw_input("Dollar Amount: $"))
+		amount = float(raw_input("Amount: "))
 
-		if choice == 1: #Euro
+		if choice == 1: #USD->Euro
 			os.system('clear')
 			choice = "USD-EUR"
 			r = get_result(choice, amount)
@@ -83,12 +87,25 @@ def main():
 			rate = r[0]
 			e=u'\u20ac' #euro symbol
 			amount = locale.currency( amount, grouping=True )
-			print "Your amount: ", amount
-			print "Converts to: ", e, format_currency(result)
-			print "The US Dollar -> Euro exchnage rate is: ", rate
+			print "Your amount (USD): ", amount, e
+			print "Converts to (EUR): ", format_currency(result)
+			print "The Euro -> US Dollar exchange rate is: ", rate
 			break
 
-		elif choice == 2: #GB
+		elif choice  == 2: #EURO->USD
+			os.system('clear')
+			choice = "EUR-USD"
+			r = get_result(choice, amount)
+			result = r[1]
+			rate = r[0]
+			e=u'\u20ac' #euro symbol
+			amount = format_currency(amount)
+			print "Your amount (EUR): ", e, amount
+			print "Converts to (USD): ", locale.currency(result, grouping=True)
+			print "The US Dollar -> Euro exchange rate is: ", rate
+			break
+
+		elif choice == 3: #GBP->USD
 			choice = "USD-GBP"
 			os.system('clear')
 			r = get_result(choice, amount)
@@ -96,12 +113,25 @@ def main():
 			rate = r[0]
 			e = u'\xA3' #British Pound symbol
 			amount = locale.currency( amount, grouping=True )
-			print "Your amount: ", amount
-			print "Converts to: ", e, format_currency(result)
-			print "The US Dollar -> GBP exchnage rate is: ", rate
+			print "Your amount (USD): ", amount
+			print "Converts to (GBP): ", e, format_currency(result)
+			print "The US Dollar -> GBP exchange rate is: ", rate
 			break
 
-		elif choice == 3: #Canadian Dollar
+		elif choice == 4: #USD->GBP
+			choice = "GBP-USD"
+			os.system('clear')
+			r = get_result(choice, amount)
+			result = r[1]
+			rate = r[0]
+			e = u'\xA3' #British Pound symbol
+			amount = format_currency(amount)
+			print "Your amount (GBP): ", e, amount
+			print "Converts to (USD): ", locale.currency(result, grouping=True )
+			print "The British Pound -> US Dollar exchange rate is: ", rate
+			break
+
+		elif choice == 5: #CAD->USD
 			choice = "USD-CAD"
 			os.system('clear')
 			r = get_result(choice, amount)
@@ -109,21 +139,45 @@ def main():
 			rate = r[0]
 			amount = locale.currency( amount, grouping=True )
 			result = locale.currency( result, grouping=True )
-			print "Your amount: ", amount
-			print "Converts to: ", result
-			print "The US Dollar -> Canadian Dollar exchnage rate is: ", rate
+			print "Your amount (USD): ", amount
+			print "Converts to (CAD): ", result
+			print "The US Dollar -> Canadian Dollar exchange rate is: ", rate
 			break
 
-		elif choice == 4: #Chinese Yuan
+		elif choice == 6: #USD->CAD
+			choice = "CAD-USD"
+			os.system('clear')
+			r = get_result(choice, amount)
+			result = r[1]
+			rate = r[0]
+			amount = locale.currency( amount, grouping=True )
+			result = locale.currency( result, grouping=True )
+			print "Your amount (CAD): ", amount
+			print "Converts to (USD): ", result
+			print "The Canadian Dollar -> US Dollar exchange rate is: ", rate
+			break
+
+		elif choice == 7: #USD->CNY
 			choice = "USD-CNY"
 			os.system('clear')
 			r = get_result(choice, amount)
 			result = r[1]
 			rate = r[0]
 			amount = locale.currency( amount, grouping=True )
-			print "Your amount: ", amount
-			print "Converts to Yuan: " , format_currency(result)
-			print "The US Dollar -> Chinese Yuan exchnage rate is: ", rate
+			print "Your amount (CNY): ", amount
+			print "Converts to Yuan (USD): " , format_currency(result)
+			print "The US Dollar -> Chinese Yuan exchange rate is: ", rate
+			break
+
+		elif choice == 8: #CNY->USD
+			choice = "CNY-USD"
+			os.system('clear')
+			r = get_result(choice, amount)
+			result = r[1]
+			rate = r[0]
+			print "Your amount (CNY): ", format_currency(amount)
+			print "Converts to Yuan (USD): " , locale.currency( result, grouping=True )
+			print "The Chinese Yuan -> US Dollar exchange rate is: ", rate
 			break
 
 #execution
