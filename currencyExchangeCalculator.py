@@ -11,7 +11,7 @@ def check_file(file):
 	if os.path.exists(file) == False or os.stat(file).st_size == 0:
 		grab_web_rates()
 
-	#check that the file is no more than 24 hours long
+	#check that the file is no more than 24 hours old
 	if  time.time() - os.path.getmtime(file) > 86400: #file older than 24 hours
 		#grab the currency exchange data form the internet
 		grab_web_rates()
