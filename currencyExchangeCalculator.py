@@ -43,7 +43,7 @@ def grab_web_rates():
 		title = title.rstrip()
 		conversion_rates.write(title + ' \n')
 		line += 1
-		if line >= 20:
+		if line >= 23:
 			break
 	conversion_rates.close()
 
@@ -72,6 +72,8 @@ def main():
 	6. Canadian Dollar -> US Dollar
 	7. US Dollar -> Chines Yuan
 	8. Chines Yuan -> US Dollar
+	9. US Dollar -> Argentina Peso
+	10. Argentina Peso -> US Dollar
 	0. Exit
 	'''
 	choice = int(raw_input("\t"))
@@ -178,6 +180,29 @@ def main():
 			print "Your amount (CNY): ", format_currency(amount)
 			print "Converts to Yuan (USD): " , locale.currency( result, grouping=True )
 			print "The Chinese Yuan -> US Dollar exchange rate is: ", rate
+			break
+
+		elif choice == 9: #USD->ARS
+			choice = "USD-ARS"
+			os.system('clear')
+			r = get_result(choice, amount)
+			result = r[1]
+			rate = r[0]
+			amount = locale.currency( amount, grouping=True )
+			print "Your amount (USD): ", amount
+			print "Converts Argentinian Peso (ARS): " , format_currency(result)
+			print "The US Dollar -> Argentinian Peso exchange rate is: ", rate
+			break
+
+		elif choice == 10: #ARS->USD
+			choice = "ARS-USD"
+			os.system('clear')
+			r = get_result(choice, amount)
+			result = r[1]
+			rate = r[0]
+			print "Your amount (ARS): ", format_currency(amount)
+			print "Converts to US Dollar (USD): " , locale.currency( result, grouping=True )
+			print "The Argentinian Peso -> US Dollar exchange rate is: ", rate
 			break
 
 #execution
