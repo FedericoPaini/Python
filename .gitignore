@@ -4,3 +4,5 @@
 dev.py
 
 *.txt
+
+conv_rates.txt
