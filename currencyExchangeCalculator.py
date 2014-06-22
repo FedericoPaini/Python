@@ -77,9 +77,22 @@ def main():
 	0. Exit
 	'''
 	choice = int(raw_input("\t"))
+
+	if choice == 0 or choice > 10: #Exit script
+		os.system('clear')
+		print "Thanks for using Currency Calculator! \n"
+		exit()
+
 	while choice != 0:
 		check_file(file)
-		amount = float(raw_input("Amount: "))
+		amount = raw_input("Amount: ")
+
+		#Strips commas if found
+		if ',' in amount:
+			amount = ''.join(e for e in amount if e.isdigit() or e == '.')
+			amount = float(amount)
+		else:
+			amount = float(amount)
 
 		if choice == 1: #USD->Euro
 			os.system('clear')
@@ -91,7 +104,7 @@ def main():
 			amount = locale.currency( amount, grouping=True )
 			print "Your amount (USD): ", amount, e
 			print "Converts to (EUR): ", format_currency(result)
-			print "The Euro -> US Dollar exchange rate is: ", rate
+			print "The Euro (EUR) -> US Dollar exchange rate is: ", rate
 			break
 
 		elif choice  == 2: #EURO->USD
@@ -104,7 +117,7 @@ def main():
 			amount = format_currency(amount)
 			print "Your amount (EUR): ", e, amount
 			print "Converts to (USD): ", locale.currency(result, grouping=True)
-			print "The US Dollar -> Euro exchange rate is: ", rate
+			print "The US Dollar -> Euro (EUR) exchange rate is: ", rate
 			break
 
 		elif choice == 3: #GBP->USD
@@ -117,7 +130,7 @@ def main():
 			amount = locale.currency( amount, grouping=True )
 			print "Your amount (USD): ", amount
 			print "Converts to (GBP): ", e, format_currency(result)
-			print "The US Dollar -> GBP exchange rate is: ", rate
+			print "The US Dollar -> British Pound (GBP) exchange rate is: ", rate
 			break
 
 		elif choice == 4: #USD->GBP
@@ -130,7 +143,7 @@ def main():
 			amount = format_currency(amount)
 			print "Your amount (GBP): ", e, amount
 			print "Converts to (USD): ", locale.currency(result, grouping=True )
-			print "The British Pound -> US Dollar exchange rate is: ", rate
+			print "The British Pound (GBP) -> US Dollar exchange rate is: ", rate
 			break
 
 		elif choice == 5: #CAD->USD
@@ -143,7 +156,7 @@ def main():
 			result = locale.currency( result, grouping=True )
 			print "Your amount (USD): ", amount
 			print "Converts to (CAD): ", result
-			print "The US Dollar -> Canadian Dollar exchange rate is: ", rate
+			print "The US Dollar -> Canadian Dollar (CAD) exchange rate is: ", rate
 			break
 
 		elif choice == 6: #USD->CAD
@@ -156,7 +169,7 @@ def main():
 			result = locale.currency( result, grouping=True )
 			print "Your amount (CAD): ", amount
 			print "Converts to (USD): ", result
-			print "The Canadian Dollar -> US Dollar exchange rate is: ", rate
+			print "The Canadian Dollar (CAD) -> US Dollar exchange rate is: ", rate
 			break
 
 		elif choice == 7: #USD->CNY
@@ -168,7 +181,7 @@ def main():
 			amount = locale.currency( amount, grouping=True )
 			print "Your amount (CNY): ", amount
 			print "Converts to Yuan (USD): " , format_currency(result)
-			print "The US Dollar -> Chinese Yuan exchange rate is: ", rate
+			print "The US Dollar -> Chinese Yuan (CNY) exchange rate is: ", rate
 			break
 
 		elif choice == 8: #CNY->USD
@@ -179,7 +192,7 @@ def main():
 			rate = r[0]
 			print "Your amount (CNY): ", format_currency(amount)
 			print "Converts to Yuan (USD): " , locale.currency( result, grouping=True )
-			print "The Chinese Yuan -> US Dollar exchange rate is: ", rate
+			print "The Chinese Yuan (CNY) -> US Dollar exchange rate is: ", rate
 			break
 
 		elif choice == 9: #USD->ARS
@@ -191,7 +204,7 @@ def main():
 			amount = locale.currency( amount, grouping=True )
 			print "Your amount (USD): ", amount
 			print "Converts Argentinian Peso (ARS): " , format_currency(result)
-			print "The US Dollar -> Argentinian Peso exchange rate is: ", rate
+			print "The US Dollar -> Argentinian Peso (ARS) exchange rate is: ", rate
 			break
 
 		elif choice == 10: #ARS->USD
@@ -202,8 +215,12 @@ def main():
 			rate = r[0]
 			print "Your amount (ARS): ", format_currency(amount)
 			print "Converts to US Dollar (USD): " , locale.currency( result, grouping=True )
-			print "The Argentinian Peso -> US Dollar exchange rate is: ", rate
+			print "The Argentinian Peso (ARS) -> US Dollar exchange rate is: ", rate
 			break
+
+		elif choice > 10:
+			exit()
+		break
 
 #execution
 main()
