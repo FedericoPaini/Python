@@ -16,30 +16,29 @@ class tempConvert:
 		self.temp = '{:.1f}'.format(self.temp)
 		return self.temp
 
+def checkArg(someString):
+	if ('.' in someString):
+		newList = someString.split('.', 1)
+		left = newList[0]
+		right = newList[1]
+	 	if (str.isdigit(left) == True) and (str.isdigit(right) == True):
+	 		return True
+	 	else:
+	 		return False
+	else:
+		return str.isdigit(someString)
+
 #main execution
 
 args_len = len(sys.argv) - 1
 args = sys.argv
 
-flag = args[1]
-number = args[2]
-
-def checkArg(someString):
-	if ('.' in someString):
-		newList = someString.split('.', 1)
-		stringToCheck = newList[0]
-	 	return str.isdigit(stringToCheck)
-	else:
-		return str.isdigit(someString)
-
-if (args_len != 2) or (checkArg(number) == False):
+if (args_len != 2) or (checkArg(args[2]) == False):
 	print '''
-	Usage: tempConv.py [switches] [temperature to convert in the form of 0.0]
+	Usage: [switches] [temperature to convert]
 			-c Celsius to Fahrenheit
 			-f Fahrenheit to Celsius
 	'''
-	print checkArg(args[2])
-
 else:
 	temperature = float(args[2])
 	flag = args[1]
