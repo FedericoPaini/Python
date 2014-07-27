@@ -60,6 +60,14 @@ def get_result(choice, amount):
 def format_currency(value):
     return "{:,.2f}".format(value)
 
+def checkChoice(choice):
+	if str.isdigit(choice): #check that the selection is a digit or exit
+		return True
+	else:
+		os.system('clear')
+		print "Thanks for using Currency Calculator! \n"
+		exit()
+
 def main():
 	os.system('clear')
 	print '''
@@ -76,9 +84,12 @@ def main():
 	10. Argentina Peso -> US Dollar
 	0. Exit
 	'''
-	choice = int(raw_input("\t"))
+	choice = raw_input("\t")
 
-	if choice == 0 or choice > 10: #Exit script
+	checkChoice(choice)
+	choice = int(choice)
+
+	if choice == 0 or choice > 10: #Exit script if the selection is not whithin the allowed range
 		os.system('clear')
 		print "Thanks for using Currency Calculator! \n"
 		exit()
