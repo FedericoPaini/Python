@@ -1,54 +1,36 @@
 #!/usr/bin/python
 
-import sys
+import sys, os, os.path, urllib2, re, cookielib, time, datetime, locale
 
-class tempConvert:
-	def __init__(self, temperature):
-		self.temperature = temperature
 
-	def calcCelsius(self):
-		self.temp = (self.temperature - 32) * ( float(5)/float(9) )
-		self.temp = '{:.1f}'.format(self.temp)
-		return self.temp
+os.system('clear')
 
-	def calcFarenheit(self):
-		self.temp = ( self.temperature * ( float(9)/float(5) ) ) + 32
-		self.temp = '{:.1f}'.format(self.temp)
-		return self.temp
-
-#main execution
-
-args_len = len(sys.argv) - 1
-args = sys.argv
-
-flag = args[1]
-number = args[2]
-
-def checkArg(someString):
-	if ('.' in someString):
-		newList = someString.split('.', 1)
-		stringToCheck = newList[0]
-	 	return str.isdigit(stringToCheck)
-	else:
-		return str.isdigit(someString)
-
-if (args_len != 2) or (checkArg(number) == False):
-	print '''
-	Usage: tempConv.py [switches] [temperature to convert in the form of 0.0]
-			-c Celsius to Fahrenheit
-			-f Fahrenheit to Celsius
+print '''
+	Chose the Conversion:
+	1. US Dollar -> Euro
+	2. Euro -> US Dollar
+	3. US Dollar -> British Pound
+	4. British Pound -> US Dollar
+	5. US Dollar -> Canadian Dollar
+	6. Canadian Dollar -> US Dollar
+	7. US Dollar -> Chines Yuan
+	8. Chines Yuan -> US Dollar
+	9. US Dollar -> Argentina Peso
+	10. Argentina Peso -> US Dollar
+	0. Exit
 	'''
-	print checkArg(args[2])
+choice = raw_input("\t")
 
-else:
-	temperature = float(args[2])
-	flag = args[1]
-
-	if flag == "-c":
-		temp = tempConvert(temperature)
-		print temp.calcFarenheit() + " F"
+#Error checkig
+def checkStringIsDigit(choice):
+	if str.isdigit(choice):
+		choice = int(choice) #turn the variable into an integer
+		if choice == 0 or choice > 10: #chekc that selection is whithin allowed range
+			return False
+		else:
+			return True
 	else:
-		temp = tempConvert(temperature)
-		print temp.calcCelsius() + " C"
+		return False
 
 
+print checkStringIsDigit(choice)
