@@ -80,8 +80,8 @@ def main():
 	6. Canadian Dollar -> US Dollar
 	7. US Dollar -> Chines Yuan
 	8. Chines Yuan -> US Dollar
-	9. US Dollar -> Argentina Peso
-	10. Argentina Peso -> US Dollar
+	9. US Dollar -> Peso Argentino
+	10. Peso Argentino -> US Dollar
 	0. Exit
 	'''
 	choice = raw_input("\t")
@@ -113,8 +113,8 @@ def main():
 			rate = r[0]
 			e=u'\u20ac' #euro symbol
 			amount = locale.currency( amount, grouping=True )
-			print "Your amount (USD): ", amount, e
-			print "Converts to (EUR): ", format_currency(result)
+			print "Your amount (USD): ", amount
+			print "Converts to (EUR): ", e, format_currency(result)
 			print "The Euro (EUR) -> US Dollar exchange rate is: ", rate
 			break
 
@@ -214,8 +214,8 @@ def main():
 			rate = r[0]
 			amount = locale.currency( amount, grouping=True )
 			print "Your amount (USD): ", amount
-			print "Converts Argentinian Peso (ARS): " , format_currency(result)
-			print "The US Dollar -> Argentinian Peso (ARS) exchange rate is: ", rate
+			print "Converts in Peso Argentino (ARS): " , format_currency(result)
+			print "The US Dollar -> Peso Argentino (ARS) exchange rate is: ", rate
 			break
 
 		elif choice == 10: #ARS->USD
@@ -226,7 +226,7 @@ def main():
 			rate = r[0]
 			print "Your amount (ARS): ", format_currency(amount)
 			print "Converts to US Dollar (USD): " , locale.currency( result, grouping=True )
-			print "The Argentinian Peso (ARS) -> US Dollar exchange rate is: ", rate
+			print "The Peso Argentino (ARS) -> US Dollar exchange rate is: ", rate
 			break
 
 		elif choice > 10:
