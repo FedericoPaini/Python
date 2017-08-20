@@ -29,8 +29,11 @@ def create_exchange_dict():
 	return exchange_rates_dict
 
 def grab_web_rates():
-	conversion_rates = open (file, 'w')
-	web = urllib2.urlopen('http://www.x-rates.com/table/?from=USD')
+	user_agent="Mozilla/5.001 (windows; U; NT4.0; en-US; rv:1.0)"
+	url="http://www.x-rates.com/table/?from=USD"
+	conversion_rates = open (file, 'w+')
+	request = urllib2.Request(url, None, { 'User-Agent' : user_agent})
+	web = urllib2.urlopen(request)
 	html = web.read()
 	line = 1
 	titles = re.findall(r'<td class=\'rtRates\'><a href=\'/graph/\?from=(.*?)</td>', html)
@@ -43,9 +46,17 @@ def grab_web_rates():
 		title = title.rstrip()
 		conversion_rates.write(title + ' \n')
 		line += 1
-		if line >= 23:
+		if line >= 100:
 			break
 	conversion_rates.close()
+
+	#Remove Duplicate
+	lines = open(file, 'r').readlines()
+	lines_set = set(lines)
+	out  = open(file, 'w')
+
+	for line in lines_set:
+	    out.write(line)
 
 def get_result(choice, amount):
 	dict = create_exchange_dict()
@@ -72,16 +83,25 @@ def main():
 	os.system('clear')
 	print '''
 	Chose the Conversion:
+
 	1. US Dollar -> Euro
 	2. Euro -> US Dollar
+	------
 	3. US Dollar -> British Pound
 	4. British Pound -> US Dollar
+	------
 	5. US Dollar -> Canadian Dollar
 	6. Canadian Dollar -> US Dollar
+	------
 	7. US Dollar -> Chines Yuan
 	8. Chines Yuan -> US Dollar
+	------
 	9. US Dollar -> Peso Argentino
 	10. Peso Argentino -> US Dollar
+	------
+	11. US Dollar -> Brazilian Real 
+	12. Brazilian Real -> US Dollar
+	
 	0. Exit
 	'''
 	choice = raw_input("\t")
@@ -89,7 +109,7 @@ def main():
 	checkChoice(choice)
 	choice = int(choice)
 
-	if choice == 0 or choice > 10: #Exit script if the selection is not whithin the allowed range
+	if choice == 0 or choice > 12: #Exit script if the selection is not whithin the allowed range
 		os.system('clear')
 		print "Thanks for using Currency Calculator! \n"
 		exit()
@@ -229,9 +249,32 @@ def main():
 			print "The Peso Argentino (ARS) -> US Dollar exchange rate is: ", rate
 			break
 
-		elif choice > 10:
+		elif choice == 11: #USD-BRL
+			choice = "USD-BRL"
+			os.system('clear')
+			r = get_result(choice, amount)
+			result = r[1]
+			rate = r[0]
+			print "Your amount (USD): ", format_currency(amount)
+			print "Converts to Brazilian Real (BRL): " , locale.currency( result, grouping=True )
+			print "The US Dollar (USD) -> Brazilian Real (BRL) exchange rate is: ", rate
+			break
+
+		elif choice == 12: #BRL->USD
+			choice = "BRL-USD"
+			os.system('clear')
+			r = get_result(choice, amount)
+			result = r[1]
+			rate = r[0]
+			print "Your amount (BRL): ", format_currency(amount)
+			print "Converts to US Dollar (USD): " , locale.currency( result, grouping=True )
+			print "The Brazilian Real (BRL) -> US Dollar exchange rate is: ", rate
+			break
+
+		elif choice > 12:
 			exit()
 		break
 
 #execution
 main()
+
