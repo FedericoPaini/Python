@@ -101,7 +101,10 @@ def main():
 	------
 	11. US Dollar -> Brazilian Real 
 	12. Brazilian Real -> US Dollar
-	
+	------
+	13. US Dollar -> Mexican Peso
+	14. Mexican Peso -> US Dollar
+
 	0. Exit
 	'''
 	choice = raw_input("\t")
@@ -109,7 +112,7 @@ def main():
 	checkChoice(choice)
 	choice = int(choice)
 
-	if choice == 0 or choice > 12: #Exit script if the selection is not whithin the allowed range
+	if choice == 0 or choice > 14: #Exit script if the selection is not whithin the allowed range
 		os.system('clear')
 		print "Thanks for using Currency Calculator! \n"
 		exit()
@@ -271,10 +274,31 @@ def main():
 			print "The Brazilian Real (BRL) -> US Dollar exchange rate is: ", rate
 			break
 
-		elif choice > 12:
+		elif choice == 13: #USD-MXN
+			choice = "USD-MXN"
+			os.system('clear')
+			r = get_result(choice, amount)
+			result = r[1]
+			rate = r[0]
+			print "Your amount (USD): ", format_currency(amount)
+			print "Converts to Mexican Peso (MXN): " , locale.currency( result, grouping=True )
+			print "The US Dollar (USD) -> Mexican Peso (MXN) exchange rate is: ", rate
+			break
+
+		elif choice == 14: #MXN-USD
+			choice = "MXN-USD"
+			os.system('clear')
+			r = get_result(choice, amount)
+			result = r[1]
+			rate = r[0]
+			print "Your amount (MXN): ", format_currency(amount)
+			print "Converts to US Dollar (USD): " , locale.currency( result, grouping=True )
+			print "Mexican Peso (MXN) -> US Dollar (USD) exchange rate is: ", rate
+			break
+
+		elif choice > 14:
 			exit()
 		break
 
 #execution
 main()
-
