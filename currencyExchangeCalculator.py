@@ -212,9 +212,10 @@ def main():
 			r = get_result(choice, amount)
 			result = r[1]
 			rate = r[0]
+			y=u'\u00a5' #yuan symbol
 			amount = locale.currency( amount, grouping=True )
-			print "Your amount (CNY): ", amount
-			print "Converts to Yuan (USD): " , format_currency(result)
+			print "Your amount (USD): ", amount
+			print "Converts to Yuan (CNY): " , y, format_currency(result)
 			print "The US Dollar -> Chinese Yuan (CNY) exchange rate is: ", rate
 			break
 
@@ -224,7 +225,8 @@ def main():
 			r = get_result(choice, amount)
 			result = r[1]
 			rate = r[0]
-			print "Your amount (CNY): ", format_currency(amount)
+			y=u'\u00a5' #yuan symbol
+			print "Your amount (CNY): ", y, format_currency(amount)
 			print "Converts to Yuan (USD): " , locale.currency( result, grouping=True )
 			print "The Chinese Yuan (CNY) -> US Dollar exchange rate is: ", rate
 			break
@@ -258,8 +260,9 @@ def main():
 			r = get_result(choice, amount)
 			result = r[1]
 			rate = r[0]
+			r=u'\u0052' #real symbol
 			print "Your amount (USD): ", format_currency(amount)
-			print "Converts to Brazilian Real (BRL): " , locale.currency( result, grouping=True )
+			print "Converts to Brazilian Real (BRL): " , r, locale.currency( result, grouping=True )
 			print "The US Dollar (USD) -> Brazilian Real (BRL) exchange rate is: ", rate
 			break
 
@@ -269,7 +272,8 @@ def main():
 			r = get_result(choice, amount)
 			result = r[1]
 			rate = r[0]
-			print "Your amount (BRL): ", format_currency(amount)
+			r=u'\u0052' #real symbol
+			print "Your amount (BRL): ", r, format_currency(amount)
 			print "Converts to US Dollar (USD): " , locale.currency( result, grouping=True )
 			print "The Brazilian Real (BRL) -> US Dollar exchange rate is: ", rate
 			break
@@ -280,9 +284,10 @@ def main():
 			r = get_result(choice, amount)
 			result = r[1]
 			rate = r[0]
+			p=u'\u20b1' #peso symbol
 			print "Your amount (USD): ", format_currency(amount)
 			print "Converts to Mexican Peso (MXN): " , locale.currency( result, grouping=True )
-			print "The US Dollar (USD) -> Mexican Peso (MXN) exchange rate is: ", rate
+			print "The US Dollar (USD) -> Mexican Peso (MXN) exchange rate is: ", p, rate
 			break
 
 		elif choice == 14: #MXN-USD
@@ -291,7 +296,8 @@ def main():
 			r = get_result(choice, amount)
 			result = r[1]
 			rate = r[0]
-			print "Your amount (MXN): ", format_currency(amount)
+			p=u'\u20b1' #peso symbol
+			print "Your amount (MXN): ", p, format_currency(amount)
 			print "Converts to US Dollar (USD): " , locale.currency( result, grouping=True )
 			print "Mexican Peso (MXN) -> US Dollar (USD) exchange rate is: ", rate
 			break
