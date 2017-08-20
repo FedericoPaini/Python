@@ -23,7 +23,7 @@ def create_exchange_dict():
 	conversion_rates = open (file, 'r') #open file read only
 
 	for line in conversion_rates:
-		exchange_rates_dict[line.split(",")[0]] = line.split(",")[1]
+		exchange_rates_dict[line.split(",")[0]] = line.split(",")[1].rstrip()
 
 	conversion_rates.close()
 	return exchange_rates_dict
@@ -286,7 +286,7 @@ def main():
 			rate = r[0]
 			p=u'\u20b1' #peso symbol
 			print "Your amount (USD): ", locale.currency(amount, grouping=True )
-			print "Converts to Mexican Peso (MXN): " , p,format_currency(result)
+			print "Converts to Mexican Peso (MXN): " , p, format_currency(result)
 			print "The US Dollar (USD) -> Mexican Peso (MXN) exchange rate is: ", rate
 			break
 
