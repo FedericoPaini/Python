@@ -6,11 +6,6 @@ import sys, os, os.path, urllib2, re, cookielib, time, datetime, locale
 
 #Variables
 file = 'conv_rates.txt' #Text database file containing the exchange rates
-e=u'\u20ac' #euro symbol
-b = u'\xA3' #British Pound symbol
-y=u'\u00a5' #yuan symbol
-r=u'\u0052' #real symbol
-p=u'\u20b1' #peso symbol
 
 locale.setlocale( locale.LC_ALL, '' )
 
@@ -35,7 +30,7 @@ def stripComma(amount): #Strips commas and return a float
 		amount = float(amount)
 	return amount
 
-def format_currency(value):
+def formatCurrency(value):
     return "{:,.2f}".format(value)
 
 def create_exchange_dict(): #Create exchange dictionary
@@ -126,6 +121,8 @@ def checkChoice(choice, menuLimit):
 
 
 def menu():
+	os.system('clear') #Clear the terminal
+
 	print('''
 	Chose the Conversion:
 
@@ -178,38 +175,100 @@ def menu():
 
 	checkChoice(choice, menuLimit)
 
-	for number, exchange in conversionChoices.items():
+	for number, exchange in conversionChoices.items(): #Get the selected currency exchange 
 		if number == int(choice):
 			selected = exchange
 	
 	return selected
 
+def displayResults(mainCurrency, secondaryCurrency, rate, amount):
+
+	e = u'\u20ac' #Euro symbol
+	b = u'\xA3'   #British Pound symbol
+	y = u'\u00a5' #Yuan symbol
+	r = u'\u0052' #Real symbol
+	p = u'\u20b1' #Peso symbol
+
+	amount = formatCurrency(amount)
+	result = float(amount) * float(rate) 
+
+	os.system('clear') #Clear the terminal
+
+	if mainCurrency == "USD":
+		amount = locale.currency(float(amount), grouping=True )
+		print ("Your amount (USD): "), amount
+	elif mainCurrency == "EUR":
+		print ("Your amount (EUR): "), e, amount
+	elif mainCurrency == "GBP":
+		print ("Your amount (GBP): "), b, amount
+	elif mainCurrency == "CAD":
+		amount = locale.currency(amount, grouping=True )
+		print ("Your amount (GBP): "), amount
+	elif mainCurrency == "MXN":
+		print ("Your amount (MXN): "), p, amount
+	elif mainCurrency == "ARS":
+		print ("Your amount (ARS): "), amount
+	elif mainCurrency == "CNY":
+		print ("Your amount (CNY): "), y, amount
+	elif mainCurrency == "BRL":
+		print ("Your amount (BRL): "), r, amount
+	else:
+		print ("Your amount: "), amount
+
+
+	if secondaryCurrency== "USD":
+		amount = locale.currency(result, grouping=True )
+		print ("Coverts to (USD): "), result
+	elif secondaryCurrency == "EUR":
+		print ("Coverts to (EUR): "), e, result
+	elif secondaryCurrency == "GBP":
+		print ("Coverts to (GBP): "), b, result
+	elif secondaryCurrency == "CAD":
+		amount = locale.currency(result, grouping=True )
+		print ("Coverts to (GBP): "), result
+	elif secondaryCurrency == "MXN":
+		print ("Coverts to (MXN): "), p, result
+	elif secondaryCurrency == "ARS":
+		print ("Coverts to (ARS): "), result
+	elif secondaryCurrency == "CNY":
+		print ("Coverts tot (CNY): "), y, result
+	elif secondaryCurrency == "BRL":
+		print ("Coverts to (BRL): "), r, result
+	else:
+		print ("Coverts to: "), result
+
+	print("The conversion rate for " + mainCurrency + "-" + secondaryCurrency + " is: "), rate
+
+
+	return 0
 
 
 def main():
 	selected = menu()
 
-	mainCurrency = selected.replace("-", " ")[:3:] #strinp the "-" form the stirng and take only the first 3 characterts
-	secondaryCurrency = selected.replace("-", " ")[4:3:] #strinp the "-" form the stirng and take only the last 3 characterts
+	mainCurrency = selected.replace("-", " ")[:3:] 		#strinp the "-" form the stirng and take only the first 3 characterts
+	secondaryCurrency = selected.replace("-", " ")[4::] #strinp the "-" form the stirng and take only the last 3 characterts
 	
-	amount = raw_input('Curency Amount '+ '(' + str(mainCurrency) + ')' +': ')
+	amount = raw_input('Curency Amount '+ '(' + str(mainCurrency) + ')' +': ') #Get to amount from the user terminal
 
-	try: #check that the selection is a float or exit with error
+	try: 												#check that the selection is a float or exit with error
 		float(amount)
-	except Exception: #Error
+	except Exception: 									#Print an error message and quit
 		errorTrap(1)
 	else:
-		amount = float(amount)
+		amount = float(amount)							#convert to float
 
-	#checkFile(file)
+	checkFile(file)										#Check that the databse file exists and it's current
 
-	#dict = create_exchange_dict()
+	dict = create_exchange_dict()						#Create exchange dictionary from text database
 	
-	#for exchange,rate in dict.items():
-	#	if exchange == selected:
-	#		result = amount * float(rate)
+	for exchange,rate in dict.items():					#Get the exchange rate aand compute the calculation
+		if exchange == selected:
+			exchangeRate = rate
 
-	print secondaryCurrency
+
+	displayResults(mainCurrency, secondaryCurrency, exchangeRate, amount)
+
 
 #Execution
 main()
