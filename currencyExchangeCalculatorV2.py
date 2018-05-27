@@ -22,12 +22,9 @@ def checkFile(file): #create currency exchange text database file
 	else: #file is up to date
 		return create_exchange_dict()
 
-def stripComma(amount): #Strips commas and return a float
+def stripComma(amount): #Strips commas
 	if ',' in amount:
 		amount = ''.join(e for e in amount if e.isdigit() or e == '.')
-		amount = float(amount)
-	else:
-		amount = float(amount)
 	return amount
 
 def formatCurrency(value):
@@ -71,54 +68,51 @@ def grabWebRates():
 	    out.write(line)
 
 def errorTrap(errorCode): #Error handling
+	copiright = u'\u00a9'
+
 	if errorCode == 1:
 		os.system('clear')
-		print ("Select only numbers please! \n")
+		print ("Error! Only numbers are allowed ! \n")
 		print ("Thanks for using Currency Calculator! \n")
-		exit()
+		exit(1)
 	
 	elif errorCode == 2:
 		os.system('clear')
-		print ("Selection out of Bounds! \n")
+		print ("Error! Selection out of Bounds! \n")
 		print ("Thanks for using Currency Calculator! \n")
-		exit()
+		exit(1)
 
 	elif errorCode == 3:
 		os.system('clear')
-		print ("Exchange rate not found! \n")
+		print ("Error! Exchange rate not found! \n")
 		print ("Thanks for using Currency Calculator! \n")
-		exit()
+		exit(1)
 
 	elif errorCode == 9:
-		print ("Something went wrong! \n")
+		print ("ErrorSomething went wrong! \n")
 		print ("Thanks for using Currency Calculator! \n")
-		exit()
+		exit(1)
 
 	elif errorCode == 10:
 		os.system('clear')
-		print ("Thanks for using Currency Calculator! (C) 2018 Federico Paini \n")
-		exit()
+		print ("Thanks for using Currency Calculator! \n\n" + copiright + "2018 Federico Paini \n")
+		exit(0)
 
 	else: #exit gracefully
 		os.system('clear')
-		print ("Thanks for using Currency Calculator! (C) 2018 Federico Paini \n")
-		exit()
+		print ("Thanks for using Currency Calculator! \n\n" + copiright + "2018 Federico Paini \n")
+		exit(0)
 	
 	return 0
 
-def checkChoice(choice, menuLimit):
+def checkChoice(choice):
 	try: #check that the selection is a digit or exit with error
 		int(choice)
 	except Exception: #Error
 		errorTrap(1)
-	else:
-		if int(choice) == 0: #Exit the program
-			errorTrap(10)
-		elif int(choice) <= int(menuLimit): #Error
-			return int(choice)
-		else:
-			errorTrap(2)
 
+def chckMenuLimit(choice, menuLimit):
+	pass
 
 def menu():
 	os.system('clear') #Clear the terminal
@@ -171,9 +165,15 @@ def menu():
 
 	selected = "Null"
 	
-	choice = raw_input("\t")
+	choice = stripComma(raw_input("\t"))
 
-	checkChoice(choice, menuLimit)
+	checkChoice(choice)
+
+	if int(choice) == 0:			#check that the selection is a number
+		errorTrap(10)
+	elif int(choice) > menuLimit:	#check that the selection is whithin the limits
+		errorTrap(2)
+
 
 	for number, exchange in conversionChoices.items(): #Get the selected currency exchange 
 		if number == int(choice):
@@ -183,31 +183,33 @@ def menu():
 
 def displayResults(mainCurrency, secondaryCurrency, rate, amount):
 
-	e = u'\u20ac' #Euro symbol
-	b = u'\xA3'   #British Pound symbol
-	y = u'\u00a5' #Yuan symbol
-	r = u'\u0052' #Real symbol
-	p = u'\u20b1' #Peso symbol
+	e = u'\u20ac' 	#Euro symbol
+	b = u'\xA3'   	#British Pound symbol
+	y = u'\u00a5' 	#Yuan symbol
+	r = u'\u0052' 	#Real symbol
+	p = u'\u20b1' 	#Peso symbol
+	yn = u'\u00a5'	#Yen symbol
+	d = u'\u0024'	#Dollar symbol
 
-	amount = formatCurrency(amount)
+
 	result = float(amount) * float(rate) 
 
 	os.system('clear') #Clear the terminal
 
+	amount = formatCurrency(amount)
+
 	if mainCurrency == "USD":
-		amount = locale.currency(float(amount), grouping=True )
-		print ("Your amount (USD): "), amount
+		print ("Your amount (USD): "), d, amount
 	elif mainCurrency == "EUR":
 		print ("Your amount (EUR): "), e, amount
 	elif mainCurrency == "GBP":
 		print ("Your amount (GBP): "), b, amount
 	elif mainCurrency == "CAD":
-		amount = locale.currency(amount, grouping=True )
-		print ("Your amount (GBP): "), amount
+		print ("Your amount (GBP): "), d, amount
 	elif mainCurrency == "MXN":
 		print ("Your amount (MXN): "), p, amount
 	elif mainCurrency == "ARS":
-		print ("Your amount (ARS): "), amount
+		print ("Your amount (ARS): "), d, amount
 	elif mainCurrency == "CNY":
 		print ("Your amount (CNY): "), y, amount
 	elif mainCurrency == "BRL":
@@ -215,21 +217,20 @@ def displayResults(mainCurrency, secondaryCurrency, rate, amount):
 	else:
 		print ("Your amount: "), amount
 
+	result = formatCurrency(result)
 
 	if secondaryCurrency== "USD":
-		amount = locale.currency(result, grouping=True )
-		print ("Coverts to (USD): "), result
+		print ("Coverts to (USD): "), d, result
 	elif secondaryCurrency == "EUR":
 		print ("Coverts to (EUR): "), e, result
 	elif secondaryCurrency == "GBP":
 		print ("Coverts to (GBP): "), b, result
 	elif secondaryCurrency == "CAD":
-		amount = locale.currency(result, grouping=True )
-		print ("Coverts to (GBP): "), result
+		print ("Coverts to (GBP): "), d, result
 	elif secondaryCurrency == "MXN":
 		print ("Coverts to (MXN): "), p, result
 	elif secondaryCurrency == "ARS":
-		print ("Coverts to (ARS): "), result
+		print ("Coverts to (ARS): "), d, result
 	elif secondaryCurrency == "CNY":
 		print ("Coverts tot (CNY): "), y, result
 	elif secondaryCurrency == "BRL":
@@ -250,6 +251,8 @@ def main():
 	secondaryCurrency = selected.replace("-", " ")[4::] #strinp the "-" form the stirng and take only the last 3 characterts
 	
 	amount = raw_input('Curency Amount '+ '(' + str(mainCurrency) + ')' +': ') #Get to amount from the user terminal
+
+	amount = stripComma(amount)
 
 	try: 												#check that the selection is a float or exit with error
 		float(amount)
