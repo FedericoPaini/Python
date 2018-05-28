@@ -33,7 +33,7 @@ def stripComma(amount): #Strips commas
 def formatCurrency(value):
     return "{:,.2f}".format(value)
 
-def createExchangeDictionary(): #Create exchange dictionary
+def createExchangeDictionary(): 
 	exchangeRatesDictionary = {}
 	with open(file, 'r') as fileobj:
 	  for line in fileobj:
@@ -62,7 +62,7 @@ def grabWebRates():
 			break
 	conversion_rates.close()
 
-	#Remove Duplicate
+	#Remove Duplicates
 	lines = open(file, 'r').readlines()
 	lines_set = set(lines)
 	out  = open(file, 'w')
@@ -70,7 +70,7 @@ def grabWebRates():
 	for line in lines_set:
 	    out.write(line)
 
-def errorTrap(errorCode): #Error handling
+def errorTrap(errorCode): 									#Error handling
 	copyright = u'\u00a9'
 
 	if errorCode == 1:
@@ -109,9 +109,9 @@ def errorTrap(errorCode): #Error handling
 	return 0
 
 def checkChoice(choice):
-	try: #check that the selection is a digit or exit with error
+	try: 							#Check that the selection is a digit or exit with error
 		int(choice)
-	except Exception: #Error
+	except Exception: 				#Print an error message and quit
 		errorTrap(1)
 
 def checkFloat(amount):
@@ -120,13 +120,13 @@ def checkFloat(amount):
 	except Exception: 				#Print an error message and quit
 		errorTrap(1)
 	else:
-		amount = float(amount)		#convert to float
+		amount = float(amount)		#Convert to float
 
 	return amount
 
 def splitCurrencies(selected):
-	primaryCurrency = selected.replace("-", " ")[:3:] 		#strinp the "-" form the stirng and take only the first 3 characterts
-	secondaryCurrency = selected.replace("-", " ")[4::] 	#strinp the "-" form the stirng and take only the last 3 characterts
+	primaryCurrency = selected.replace("-", " ")[:3:] 		#Strinp the "-" form the stirng and take only the first 3 characterts
+	secondaryCurrency = selected.replace("-", " ")[4::] 	#Strinp the "-" form the stirng and take only the last 3 characterts
 
 	return primaryCurrency, secondaryCurrency
 
@@ -184,12 +184,12 @@ def menu():
 
 	checkChoice(choice)
 
-	if int(choice) == 0:			#check that the selection is a number
+	if int(choice) == 0:								#check that the selection is a number
 		errorTrap(10)
-	elif int(choice) > menuLimit:	#check that the selection is whithin the limits
+	elif int(choice) > menuLimit:						#check that the selection is whithin the limits
 		errorTrap(2)
 
-	for number, exchange in conversionChoices.items(): #Get the selected currency exchange 
+	for number, exchange in conversionChoices.items(): 	#Get the selected currency exchange 
 		if number == int(choice):
 			selected = exchange
 	
@@ -267,7 +267,7 @@ def main():
 	amount = checkFloat(amount)
 
 	checkFile(file)										#Check that the databse file exists and it's current
-	dict = createExchangeDictionary()						#Create exchange dictionary from text database
+	dict = createExchangeDictionary()					#Create exchange dictionary from text database
 	
 	for exchange,rate in dict.items():					#Get the exchange rate aand compute the calculation
 		if exchange == selected:
