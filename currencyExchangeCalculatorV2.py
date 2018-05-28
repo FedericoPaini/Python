@@ -195,7 +195,7 @@ def menu():
 	
 	return selected
 
-def displayResults(mainCurrency, secondaryCurrency, rate, amount):
+def displayResults(primaryCurrency, secondaryCurrency, rate, amount):
 
 	e = u'\u20ac' 	#Euro symbol
 	b = u'\xA3'   	#British Pound symbol
@@ -211,21 +211,21 @@ def displayResults(mainCurrency, secondaryCurrency, rate, amount):
 
 	amount = formatCurrency(amount)
 
-	if mainCurrency == "USD":
+	if primaryCurrency == "USD":
 		print ("Your amount (USD): "), d, amount
-	elif mainCurrency == "EUR":
+	elif primaryCurrency == "EUR":
 		print ("Your amount (EUR): "), e, amount
-	elif mainCurrency == "GBP":
+	elif primaryCurrency == "GBP":
 		print ("Your amount (GBP): "), b, amount
-	elif mainCurrency == "CAD":
+	elif primaryCurrency == "CAD":
 		print ("Your amount (GBP): "), d, amount
-	elif mainCurrency == "MXN":
+	elif primaryCurrency == "MXN":
 		print ("Your amount (MXN): "), p, amount
-	elif mainCurrency == "ARS":
+	elif primaryCurrency == "ARS":
 		print ("Your amount (ARS): "), d, amount
-	elif mainCurrency == "CNY":
+	elif primaryCurrency == "CNY":
 		print ("Your amount (CNY): "), y, amount
-	elif mainCurrency == "BRL":
+	elif primaryCurrency == "BRL":
 		print ("Your amount (BRL): "), r, amount
 	else:
 		print ("Your amount: "), amount
@@ -251,7 +251,7 @@ def displayResults(mainCurrency, secondaryCurrency, rate, amount):
 	else:
 		print ("Coverts to: "), result
 
-	print("The conversion rate for " + mainCurrency + "-" + secondaryCurrency + " is: "), rate
+	print("The conversion rate for " + primaryCurrency + "-" + secondaryCurrency + " is: "), rate
 
 	return 0
 
