@@ -1,6 +1,9 @@
 #!/usr/bin/python
-#Version 2.0 
-#By Federico Paini federico.paini@gmail.com
+#Version 2.0
+#Not yet compatible with Python 3.x 
+#Written by Federico Paini federico.paini@gmail.com
+#Usage permitten without consent from the author.  
+#Use this program on a "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied  
 
 import sys, os, os.path, urllib2, re, cookielib, time, datetime, locale
 
@@ -89,7 +92,7 @@ def errorTrap(errorCode): #Error handling
 		exit(1)
 
 	elif errorCode == 9:
-		print ("ErrorSomething went wrong! \n")
+		print ("Error! Something went wrong! \n")
 		print ("Thanks for using Currency Calculator! \n")
 		exit(1)
 
