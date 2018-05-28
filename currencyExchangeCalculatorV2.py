@@ -111,9 +111,6 @@ def checkChoice(choice):
 	except Exception: #Error
 		errorTrap(1)
 
-def chckMenuLimit(choice, menuLimit):
-	pass
-
 def menu():
 	os.system('clear') #Clear the terminal
 
@@ -162,7 +159,6 @@ def menu():
 						}
 
 	menuLimit = len(conversionChoices)
-
 	selected = "Null"
 	
 	choice = stripComma(raw_input("\t"))
@@ -173,7 +169,6 @@ def menu():
 		errorTrap(10)
 	elif int(choice) > menuLimit:	#check that the selection is whithin the limits
 		errorTrap(2)
-
 
 	for number, exchange in conversionChoices.items(): #Get the selected currency exchange 
 		if number == int(choice):
@@ -190,7 +185,6 @@ def displayResults(mainCurrency, secondaryCurrency, rate, amount):
 	p = u'\u20b1' 	#Peso symbol
 	yn = u'\u00a5'	#Yen symbol
 	d = u'\u0024'	#Dollar symbol
-
 
 	result = float(amount) * float(rate) 
 
@@ -240,7 +234,6 @@ def displayResults(mainCurrency, secondaryCurrency, rate, amount):
 
 	print("The conversion rate for " + mainCurrency + "-" + secondaryCurrency + " is: "), rate
 
-
 	return 0
 
 
@@ -249,9 +242,7 @@ def main():
 
 	mainCurrency = selected.replace("-", " ")[:3:] 		#strinp the "-" form the stirng and take only the first 3 characterts
 	secondaryCurrency = selected.replace("-", " ")[4::] #strinp the "-" form the stirng and take only the last 3 characterts
-	
 	amount = raw_input('Curency Amount '+ '(' + str(mainCurrency) + ')' +': ') #Get to amount from the user terminal
-
 	amount = stripComma(amount)
 
 	try: 												#check that the selection is a float or exit with error
@@ -262,13 +253,11 @@ def main():
 		amount = float(amount)							#convert to float
 
 	checkFile(file)										#Check that the databse file exists and it's current
-
 	dict = create_exchange_dict()						#Create exchange dictionary from text database
 	
 	for exchange,rate in dict.items():					#Get the exchange rate aand compute the calculation
 		if exchange == selected:
 			exchangeRate = rate
-
 
 	displayResults(mainCurrency, secondaryCurrency, exchangeRate, amount)
 
