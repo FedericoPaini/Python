@@ -111,6 +111,12 @@ def checkChoice(choice):
 	except Exception: #Error
 		errorTrap(1)
 
+def splitCurrencies(selected):
+	primaryCurrency = selected.replace("-", " ")[:3:] 		#strinp the "-" form the stirng and take only the first 3 characterts
+	secondaryCurrency = selected.replace("-", " ")[4::] 	#strinp the "-" form the stirng and take only the last 3 characterts
+
+	return primaryCurrency, secondaryCurrency
+
 def menu():
 	os.system('clear') #Clear the terminal
 
@@ -240,9 +246,10 @@ def displayResults(mainCurrency, secondaryCurrency, rate, amount):
 def main():
 	selected = menu()
 
-	mainCurrency = selected.replace("-", " ")[:3:] 		#strinp the "-" form the stirng and take only the first 3 characterts
-	secondaryCurrency = selected.replace("-", " ")[4::] #strinp the "-" form the stirng and take only the last 3 characterts
-	amount = raw_input('Curency Amount '+ '(' + str(mainCurrency) + ')' +': ') #Get to amount from the user terminal
+	primaryCurrency = splitCurrencies(selected)[0]
+	secondaryCurrency = splitCurrencies(selected)[1]
+	
+	amount = raw_input('Curency Amount '+ '(' + str(primaryCurrency) + ')' +': ') #Get to amount from the user terminal
 	amount = stripComma(amount)
 
 	try: 												#check that the selection is a float or exit with error
@@ -259,7 +266,7 @@ def main():
 		if exchange == selected:
 			exchangeRate = rate
 
-	displayResults(mainCurrency, secondaryCurrency, exchangeRate, amount)
+	displayResults(primaryCurrency, secondaryCurrency, exchangeRate, amount)
 
 
 #Execution
