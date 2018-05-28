@@ -111,6 +111,16 @@ def checkChoice(choice):
 	except Exception: #Error
 		errorTrap(1)
 
+def checkFloat(amount):
+	try: 							#check that the selection is a float or exit with error
+		float(amount)
+	except Exception: 				#Print an error message and quit
+		errorTrap(1)
+	else:
+		amount = float(amount)		#convert to float
+
+	return amount
+
 def splitCurrencies(selected):
 	primaryCurrency = selected.replace("-", " ")[:3:] 		#strinp the "-" form the stirng and take only the first 3 characterts
 	secondaryCurrency = selected.replace("-", " ")[4::] 	#strinp the "-" form the stirng and take only the last 3 characterts
@@ -251,13 +261,7 @@ def main():
 	
 	amount = raw_input('Curency Amount '+ '(' + str(primaryCurrency) + ')' +': ') #Get to amount from the user terminal
 	amount = stripComma(amount)
-
-	try: 												#check that the selection is a float or exit with error
-		float(amount)
-	except Exception: 									#Print an error message and quit
-		errorTrap(1)
-	else:
-		amount = float(amount)							#convert to float
+	amount = checkFloat(amount)
 
 	checkFile(file)										#Check that the databse file exists and it's current
 	dict = create_exchange_dict()						#Create exchange dictionary from text database
