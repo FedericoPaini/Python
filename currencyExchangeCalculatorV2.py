@@ -68,7 +68,7 @@ def grabWebRates():
 	    out.write(line)
 
 def errorTrap(errorCode): #Error handling
-	copiright = u'\u00a9'
+	copyright = u'\u00a9'
 
 	if errorCode == 1:
 		os.system('clear')
@@ -95,12 +95,12 @@ def errorTrap(errorCode): #Error handling
 
 	elif errorCode == 10:
 		os.system('clear')
-		print ("Thanks for using Currency Calculator! \n\n" + copiright + "2018 Federico Paini \n")
+		print ("Thanks for using Currency Calculator! \n\n" + copyright + "2018 Federico Paini \n")
 		exit(0)
 
 	else: #exit gracefully
 		os.system('clear')
-		print ("Thanks for using Currency Calculator! \n\n" + copiright + "2018 Federico Paini \n")
+		print ("Thanks for using Currency Calculator! \n\n" + copyright + "2018 Federico Paini \n")
 		exit(0)
 	
 	return 0
