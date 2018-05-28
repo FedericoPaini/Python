@@ -8,24 +8,23 @@
 import sys, os, os.path, urllib2, re, cookielib, time, datetime, locale
 
 #Variables
-file = 'conv_rates.txt' #Text database file containing the exchange rates
+file = 'conv_rates.txt' 											#Text database file containing the exchange rates
 
 locale.setlocale( locale.LC_ALL, '' )
 
 #Procedures
-def checkFile(file): #create currency exchange text database file
-	#check that the file exists and it's not empty
-	if os.path.exists(file) == False or os.stat(file).st_size == 0:
+def checkFile(file): 												#Create currency exchange text database file containing the exchange rates
+	
+	if os.path.exists(file) == False or os.stat(file).st_size == 0:	#Check that the file exists and it's not empty
 		grabWebRates()
 
-	#check that the file is no more than 24 hours old
-	if  time.time() - os.path.getmtime(file) > 86400: #file older than 24 hours
-		#grab the currency exchange data form the internet
-		grabWebRates()
-	else: #file is up to date
-		return createExchangeDictionary()
+														
+	if  time.time() - os.path.getmtime(file) > 86400: 				#Check that the file is no more than 24 hours old
+		grabWebRates()												#Grab the currency exchange data form the internet
+	else: 
+		return createExchangeDictionary()							#The file is up to date, all good.
 
-def stripComma(amount): #Strips commas
+def stripComma(amount): 											
 	if ',' in amount:
 		amount = ''.join(e for e in amount if e.isdigit() or e == '.')
 	return amount
@@ -33,14 +32,14 @@ def stripComma(amount): #Strips commas
 def formatCurrency(value):
     return "{:,.2f}".format(value)
 
-def createExchangeDictionary(): 
+def createExchangeDictionary(): 									#Create dictionary from the text database
 	exchangeRatesDictionary = {}
 	with open(file, 'r') as fileobj:
 	  for line in fileobj:
 	      exchangeRatesDictionary[line.split(",")[0]] = line.split(",")[1].rstrip()
 	return exchangeRatesDictionary
 
-def grabWebRates():
+def grabWebRates():													#Grab the exchange rates from the web and saves it into the text database
 	user_agent="Mozilla/5.001 (windows; U; NT4.0; en-US; rv:1.0)"
 	url="http://www.x-rates.com/table/?from=USD"
 	conversion_rates = open (file, 'w+')
@@ -70,7 +69,7 @@ def grabWebRates():
 	for line in lines_set:
 	    out.write(line)
 
-def errorTrap(errorCode): 									#Error handling
+def errorTrap(errorCode): 									#Error handling function
 	copyright = u'\u00a9'
 
 	if errorCode == 1:
@@ -130,8 +129,8 @@ def splitCurrencies(selected):
 
 	return primaryCurrency, secondaryCurrency
 
-def menu():
-	os.system('clear') #Clear the terminal
+def menu():													#Main menu function. User to select the desired exchange rates
+	os.system('clear') 										#Clear the terminal
 
 	print('''
 	Chose the Conversion:
@@ -184,9 +183,9 @@ def menu():
 
 	checkChoice(choice)
 
-	if int(choice) == 0:								#check that the selection is a number
+	if int(choice) == 0:								#Check that the selection is a number
 		errorTrap(10)
-	elif int(choice) > menuLimit:						#check that the selection is whithin the limits
+	elif int(choice) > menuLimit:						#Check that the selection is whithin the menu limits
 		errorTrap(2)
 
 	for number, exchange in conversionChoices.items(): 	#Get the selected currency exchange 
@@ -197,20 +196,22 @@ def menu():
 
 def displayResults(primaryCurrency, secondaryCurrency, rate, amount):
 
-	e = u'\u20ac' 	#Euro symbol
-	b = u'\xA3'   	#British Pound symbol
-	y = u'\u00a5' 	#Yuan symbol
-	r = u'\u0052' 	#Real symbol
-	p = u'\u20b1' 	#Peso symbol
-	yn = u'\u00a5'	#Yen symbol
-	d = u'\u0024'	#Dollar symbol
+	#Unicode currency symbols 
+	e = u'\u20ac' 	#Euro 
+	b = u'\xA3'   	#British Pound 
+	y = u'\u00a5' 	#Chinese Yuan 
+	r = u'\u0052' 	#Brazilian Real 
+	p = u'\u20b1' 	#Mexican Peso 
+	yn = u'\u00a5'	#Japanese Yen 
+	d = u'\u0024'	#Dollar 
 
-	result = float(amount) * float(rate) 
+	result = float(amount) * float(rate) 				#Calculates exchange result
 
-	os.system('clear') #Clear the terminal
+	os.system('clear') 									#Clear the terminal
 
 	amount = formatCurrency(amount)
 
+	#Print out final results to terminal 
 	if primaryCurrency == "USD":
 		print ("Your amount (USD): "), d, amount
 	elif primaryCurrency == "EUR":
@@ -262,18 +263,18 @@ def main():
 	primaryCurrency = splitCurrencies(selected)[0]
 	secondaryCurrency = splitCurrencies(selected)[1]
 	
-	amount = raw_input('Curency Amount '+ '(' + str(primaryCurrency) + ')' +': ') #Get to amount from the user terminal
+	amount = raw_input('Curency Amount '+ '(' + str(primaryCurrency) + ')' +': ') 	#Get to amount from the user 
 	amount = stripComma(amount)
 	amount = checkFloat(amount)
 
-	checkFile(file)										#Check that the databse file exists and it's current
-	dict = createExchangeDictionary()					#Create exchange dictionary from text database
+	checkFile(file)																	#Check that the databse file exists and it's current
+	dict = createExchangeDictionary()												#Create exchange dictionary from text database
 	
-	for exchange,rate in dict.items():					#Get the exchange rate aand compute the calculation
+	for exchange,rate in dict.items():												#Get the exchange rate aand compute the calculation
 		if exchange == selected:
 			exchangeRate = rate
 
-	displayResults(primaryCurrency, secondaryCurrency, exchangeRate, amount)
+	displayResults(primaryCurrency, secondaryCurrency, exchangeRate, amount)		#Print out results to terminal
 
 
 #Execution
