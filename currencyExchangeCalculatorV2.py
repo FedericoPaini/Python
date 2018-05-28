@@ -23,7 +23,7 @@ def checkFile(file): #create currency exchange text database file
 		#grab the currency exchange data form the internet
 		grabWebRates()
 	else: #file is up to date
-		return create_exchange_dict()
+		return createExchangeDictionary()
 
 def stripComma(amount): #Strips commas
 	if ',' in amount:
@@ -33,12 +33,12 @@ def stripComma(amount): #Strips commas
 def formatCurrency(value):
     return "{:,.2f}".format(value)
 
-def create_exchange_dict(): #Create exchange dictionary
-	exchange_rates_dict = {}
+def createExchangeDictionary(): #Create exchange dictionary
+	exchangeRatesDictionary = {}
 	with open(file, 'r') as fileobj:
 	  for line in fileobj:
-	      exchange_rates_dict[line.split(",")[0]] = line.split(",")[1].rstrip()
-	return exchange_rates_dict
+	      exchangeRatesDictionary[line.split(",")[0]] = line.split(",")[1].rstrip()
+	return exchangeRatesDictionary
 
 def grabWebRates():
 	user_agent="Mozilla/5.001 (windows; U; NT4.0; en-US; rv:1.0)"
@@ -245,7 +245,7 @@ def displayResults(primaryCurrency, secondaryCurrency, rate, amount):
 	elif secondaryCurrency == "ARS":
 		print ("Coverts to (ARS): "), d, result
 	elif secondaryCurrency == "CNY":
-		print ("Coverts tot (CNY): "), y, result
+		print ("Coverts to (CNY): "), y, result
 	elif secondaryCurrency == "BRL":
 		print ("Coverts to (BRL): "), r, result
 	else:
@@ -267,7 +267,7 @@ def main():
 	amount = checkFloat(amount)
 
 	checkFile(file)										#Check that the databse file exists and it's current
-	dict = create_exchange_dict()						#Create exchange dictionary from text database
+	dict = createExchangeDictionary()						#Create exchange dictionary from text database
 	
 	for exchange,rate in dict.items():					#Get the exchange rate aand compute the calculation
 		if exchange == selected:
