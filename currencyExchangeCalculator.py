@@ -219,7 +219,7 @@ def displayResults(primaryCurrency, secondaryCurrency, rate, amount):
 	elif primaryCurrency == "GBP":
 		print ("Your amount (GBP): "), b, amount
 	elif primaryCurrency == "CAD":
-		print ("Your amount (GBP): "), d, amount
+		print ("Your amount (CAD): "), d, amount
 	elif primaryCurrency == "MXN":
 		print ("Your amount (MXN): "), p, amount
 	elif primaryCurrency == "ARS":
@@ -240,7 +240,7 @@ def displayResults(primaryCurrency, secondaryCurrency, rate, amount):
 	elif secondaryCurrency == "GBP":
 		print ("Coverts to (GBP): "), b, result
 	elif secondaryCurrency == "CAD":
-		print ("Coverts to (GBP): "), d, result
+		print ("Coverts to (CAD): "), d, result
 	elif secondaryCurrency == "MXN":
 		print ("Coverts to (MXN): "), p, result
 	elif secondaryCurrency == "ARS":
