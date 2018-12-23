@@ -1,14 +1,14 @@
 #!/usr/bin/python
 
-import sys, os, os.path, urllib2, re, cookielib, time, datetime, locale
+import sys, os, os.path, re, time, datetime, locale, requests
+import pandas as pd
+import numpy as np
 
-file = 'conv_rates.txt' #file containing the exchange rates
-exchange_rates_dict = {}
-conversion_rates = open (file, 'r') #open file read only
+data_set = '/home/fedderico/Documents/code/python/FlaLottoDataset.csv'
 
-for line in conversion_rates:
-	exchange_rates_dict[line.split(",")[0]] = line.split(",")[1].rstrip()
-	#print line
+df = pd.read_csv(data_set)
 
-conversion_rates.close()
-print exchange_rates_dict
+df.sort_values(by=['Date'])
+df.set_index('Date')
+
+print (df.head())
