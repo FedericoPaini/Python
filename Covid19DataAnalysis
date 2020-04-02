@@ -9,41 +9,30 @@ from datetime import datetime
 historical_italy = "https://corona.lmao.ninja/v2/historical/italy"
 historical_us = "https://corona.lmao.ninja/v2/historical/usa"
 
-def grab_data():
-    r = requests.get(historical_italy)
+data_raw = requests.get(historical_us)
+d = (data_raw.json())
 
-    with open("corona.txt", "w") as f:
-        print(r.text, file=f)
+db = {}
+date_list = []
+count_list = []
 
-def process():
+#Format data 
+for date, number in d['timeline']['cases'].items():
+    date = datetime.strptime(date, "%m/%d/%y").isoformat().split("T")[0]
+    db[date] = int(number)
+    
+#create the lisy for X and Y axix
+for date in sorted(db):
+    date_list.append(date)
+    count_list.append(db[date])
 
-    with open("corona.txt") as f:
-        d = json.loads(f.read())
-    # or:   d = json.loads(requests.get("https://corona.lmao.ninja/v2/historical/usa").text)
+#strip the year for better formatting
+date_list = [d[5:] for d in date_list]
 
-    db = {}
-    date_list = []
-    count_list = []
-
-    for date, number in d['timeline']['cases'].items():
-        date = datetime.strptime(date, "%m/%d/%y").isoformat().split("T")[0]
-        db[date] = int(number)
-        
-
-    for date in sorted(db):
-    #    print(date, db[date])
-        date_list.append(date)
-        count_list.append(db[date])
-
-    plt.plot(date_list, count_list, color='lightblue')
-    plt.title('Progression of COVID19 Cases in Italy')
-    plt.setp(plt.xticks([x for x in date_list[::2]], rotation=30, ha="right"))
-    plt.yscale('log')
-    plt.legend(['Confirmed Cases'], loc='upper left')
-    plt.show()
-
-
-
-if __name__ == "__main__":
-    grab_data()
-    process()
+#Plot the graph
+plt.plot(date_list, count_list, color='red')
+plt.title('Progression of COVID19 Cases in USA (Logarithmic Scale)')
+plt.setp(plt.xticks([x for x in date_list[::2]], rotation=30, ha="right"))
+plt.yscale('log')
+plt.legend(['Confirmed Cases'], loc='upper left')
+plt.show()
