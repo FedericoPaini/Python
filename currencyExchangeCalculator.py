@@ -1,5 +1,5 @@
-#!/usr/bin/python
-#Version 2.1
+#!/usr/bin/python3
+#Version 2.2
 #Use Python 3.x 
 #Written by Federico Paini federico[DOT]paini[AT]gmail[DOT]com
 #Usage permitten without consent from the author.  
@@ -8,29 +8,29 @@
 import sys, os, os.path, urllib.request, re, time, datetime, locale
 
 #Variables
-file = 'conv_rates.txt' 											#Text database file containing the exchange rates
+file = 'conv_rates.txt' 												#Text database file containing the exchange rates
 
 locale.setlocale( locale.LC_ALL, '' )
 
 #Procedures
-def check_File(file): 												#Create currency exchange text database file containing the exchange rates
+def check_File(file): 													#Create currency exchange text database file containing the exchange rates
 	
-	if os.path.exists(file) == False or os.stat(file).st_size == 0:	#Check that the file exists and it's not empty
+	if os.path.exists(file) == False or os.stat(file).st_size == 0:		#Check that the file exists and is not empty
 		grab_Web_Rates()														
-	if  time.time() - os.path.getmtime(file) > 86400: 				#Check that the file is no more than 24 hours old
+	if  time.time() - os.path.getmtime(file) > 86400: 					#Check that the file is no more than 24 hours old
 		grab_Web_Rates()												#Grab the currency exchange data form the internet
 	else: 
-		return create_Exchange_Dictionary()							#The file is up to date, all good.
+		return create_Exchange_Dictionary()								#The file is up to date, all good
 
-def strip_Comma(amount): 											
+def strip_Comma(amount): 												#strip commas from the amount to be converted									
 	if ',' in amount:
 		amount = ''.join(e for e in amount if e.isdigit() or e == '.')
 	return amount
 
-def format_Currency(value):
+def format_Currency(value):												#format currency US style 
     return "{:,.2f}".format(value)
 
-def create_Exchange_Dictionary(): 									#Create dictionary from the text database
+def create_Exchange_Dictionary(): 										#Create dictionary from the text database
 	exchange_Rates_Dictionary = {}
 	with open(file, 'r') as fileobj:
 	  for line in fileobj:
@@ -67,7 +67,7 @@ def grab_Web_Rates():													#Grab the exchange rates from the web and save
 	for line in lines_set:
 	    out.write(line)
 
-def error_Trap(error_Code): 									#Error handling function
+def error_Trap(error_Code): 										#Error handling function
 	copyright = u'\u00a9'
 
 	if error_Code == 1:
@@ -106,29 +106,29 @@ def error_Trap(error_Code): 									#Error handling function
 	return 0
 
 def check_Choice(choice):
-	try: 							#Check that the selection is a digit or exit with error
+	try: 															#Check that the selection is a digit or exit with error
 		int(choice)
-	except Exception: 				#Print an error message and quit
+	except Exception: 												#Print an error message and quit
 		error_Trap(1)
 
 def check_Float(amount):
-	try: 							#check that the selection is a float or exit with error
+	try: 															#check that the selection is a float or exit with error
 		float(amount)
-	except Exception: 				#Print an error message and quit
+	except Exception: 												#Print an error message and quit
 		error_Trap(1)
 	else:
-		amount = float(amount)		#Convert to float
+		amount = float(amount)										#Convert to float
 
 	return amount
 
 def split_Currencies(selected):
-	primary_Currency = selected.replace("-", " ")[:3:] 		#Strinp the "-" form the stirng and take only the first 3 characterts
-	secondary_Currency = selected.replace("-", " ")[4::] 	#Strinp the "-" form the stirng and take only the last 3 characterts
+	primary_Currency = selected.replace("-", " ")[:3:] 				#Strinp the "-" form the stirng and take only the first 3 characterts
+	secondary_Currency = selected.replace("-", " ")[4::] 			#Strinp the "-" form the stirng and take only the last 3 characterts
 
 	return primary_Currency, secondary_Currency
 
-def menu():													#Main menu function. User to select the desired exchange rates
-	os.system('clear') 										#Clear the terminal
+def menu():															#Main menu function. User to select the desired exchange rates
+	os.system('clear') 												#Clear the terminal
 
 	print('''
 	Chose the Conversion:
@@ -180,12 +180,12 @@ def menu():													#Main menu function. User to select the desired exchange
 
 	check_Choice(choice)
 
-	if int(choice) == 0:								#Check that the selection is a number
+	if int(choice) == 0:											#Check that the selection is a number
 		error_Trap(10)
-	elif int(choice) > menu_Limit:						#Check that the selection is whithin the menu limits
+	elif int(choice) > menu_Limit:									#Check that the selection is whithin the menu limits
 		error_Trap(2)
 
-	for number, exchange in conversion_Choices.items(): 	#Get the selected currency exchange 
+	for number, exchange in conversion_Choices.items(): 			#Get the selected currency exchange 
 		if number == int(choice):
 			selected = exchange
 	
@@ -197,14 +197,14 @@ def main():
 	primary_Currency = split_Currencies(selected)[0]
 	secondary_Currency = split_Currencies(selected)[1]
 	
-	amount = input('Curency Amount '+ '(' + str(primary_Currency) + ')' +': ') 	#Get to amount from the user 
+	amount = input('Curency Amount '+ '(' + str(primary_Currency) + ')' +': ') 	#Get to amount to be converted 
 	amount = strip_Comma(amount)
 	amount = check_Float(amount)
 
-	check_File(file)																#Check that the databse file exists and it's current
-	dict = create_Exchange_Dictionary()												#Create exchange dictionary from text database
+	check_File(file)															#Check that the databse file exists and is current
+	dict = create_Exchange_Dictionary()											#Create exchange dictionary from text database
 	
-	for exchange,rate in dict.items():												#Get the exchange rate aand compute the calculation
+	for exchange,rate in dict.items():											#Get the exchange rate aand compute the calculation
 		if exchange == selected:
 			exchangeRate = rate
 
@@ -220,12 +220,12 @@ def main():
 
 	amount = float(amount)
 	exchangeRate = float(exchangeRate)
-	result = amount * exchangeRate						#Calculates exchange result
+	result = amount * exchangeRate												#Execute the currency conversion
 
 	#Print out final results to terminal 
-	os.system('clear') 									#Clear the terminal
+	os.system('clear') 															#Clear the terminal
 
-	if primary_Currency == "USD":
+	if primary_Currency == "USD":												#Display the result 
 		print ("Your amount (USD): "+"${:,.2f}".format(amount))
 	elif primary_Currency == "EUR":
 		print ("Your Amount (EUR): "+ e +"{:,.2f}".format(amount))
